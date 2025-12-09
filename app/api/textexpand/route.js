@@ -5,3 +5,4 @@ export async function POST(req) {
   const output = await callGroq(`Expand this text into a longer version:\n\n${text}`);
   return new Response(JSON.stringify({ output }), { status: 200 });
 }
+
