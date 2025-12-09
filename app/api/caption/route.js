@@ -1,4 +1,8 @@
-export async function GET() {
-  const exists = !!process.env.GROQ_KEY;
-  return new Response(exists ? "KEY OK" : "KEY MISSING", { status: 200 });
+import { callGroq } from "../_shared";
+
+export async function POST(req) {
+  const { text } = await req.json();
+  const output = await callGroq(`Write a short, catchy caption for:\n\n${text}`);
+  return new Response(JSON.stringify({ output }), { status: 200 });
 }
+
