@@ -24,6 +24,8 @@
   transition: all 0.3s ease;
   text-transform: capitalize;
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Elegant hover effect */
@@ -47,14 +49,12 @@
 
 .nav-list li a:hover {
   color: white;
-  z-index: 1;
 }
 
 /* Active / Selected style */
 .nav-list li a.active {
   color: white;
   background: #7c3aed;
-  z-index: 1;
 }
 
 /* Smooth responsive typography */
