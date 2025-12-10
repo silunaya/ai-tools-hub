@@ -12,7 +12,7 @@ export async function POST(req) {
     }
 
     // Initialize Groq client
-    const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    const client = new Groq({ apiKey: "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" });
 
     // Call Groq
     const completion = await client.chat.completions.create({
