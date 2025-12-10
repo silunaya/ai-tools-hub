@@ -15,7 +15,7 @@ export default function Home() {
         </div>
         <div className="card">
           <h3>Quick Start</h3>
-          <p className="small">Deploy to Vercel, add <code>GROQ_KEY</code>, then open any tool page.</p>
+          <p className="small">Deploy to Vercel, add <code>GROQ_API_KEY </code>, then open any tool page.</p>
         </div>
       </div>
     </div>
