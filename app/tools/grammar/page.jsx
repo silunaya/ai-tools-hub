@@ -1,24 +1,23 @@
 "use client";
 import { useState } from "react";
 
-export default function GrammarTool() {
+export default function ToolPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleGrammar() {
+  async function handleSubmit() {
     setLoading(true);
     setOutput("");
 
     try {
-      const res = await fetch("/api/grammar", {
+      const res = await fetch("/api/grammer", {    // << CHANGE THIS
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: input })
       });
 
-      const text = await res.text();   // IMPORTANT!
-
+      const text = await res.text();
       setOutput(text);
     } catch (err) {
       setOutput("Error: " + err.message);
@@ -28,35 +27,65 @@ export default function GrammarTool() {
   }
 
   return (
-    <div style={{ maxWidth: 600, margin: "0 auto", padding: 20 }}>
-      <h2>Grammar Correction Tool</h2>
+    <div style={{
+      maxWidth: "700px",
+      margin: "0 auto",
+      padding: "20px",
+      width: "100%"
+    }}>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+        TOOL NAME HERE
+      </h1>
 
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        rows={5}
-        style={{ width: "100%", marginBottom: 10 }}
-        placeholder="Enter your text..."
+        rows={6}
+        placeholder="Enter text..."
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "8px",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+          resize: "vertical",
+          marginBottom: "15px"
+        }}
       />
 
-      <button onClick={handleGrammar} disabled={loading}>
-        {loading ? "Processing..." : "Fix Grammar"}
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        style={{
+          width: "100%",
+          padding: "12px",
+          background: "#000",
+          color: "#fff",
+          borderRadius: "8px",
+          border: "none",
+          fontSize: "16px",
+          cursor: "pointer"
+        }}
+      >
+        {loading ? "Processing..." : "Generate"}
       </button>
 
       {output && (
         <div
           style={{
-            marginTop: 20,
-            padding: 10,
-            background: "#f4f4f4",
-            borderRadius: 8
+            marginTop: "20px",
+            padding: "15px",
+            background: "#f8f8f8",
+            borderRadius: "8px",
+            fontSize: "16px",
+            whiteSpace: "pre-wrap"
           }}
         >
-          <strong>Corrected:</strong>
-          <p>{output}</p>
+          {output}
         </div>
       )}
     </div>
   );
 }
+
 
