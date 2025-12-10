@@ -1,32 +1,25 @@
-<ul className="nav-list">
-  <li>
-    <a href="/tools/grammar">Grammar</a>
-  </li>
-  <li>
-    <a href="/tools/caption">Caption</a>
-  </li>
-  <li>
-    <a href="/tools/translate">Translate</a>
-  </li>
-  <li>
-    <a href="/tools/summarize">Summarize</a>
-  </li>
-  <li>
-    <a href="/tools/title">Title</a>
-  </li>
-  <li>
-    <a href="/tools/resume">Resume</a>
-  </li>
-  <li>
-    <a href="/tools/codeexplain">Code Explain</a>
-  </li>
-  <li>
-    <a href="/tools/textexpand">Text Expand</a>
-  </li>
-  <li>
-    <a href="/tools/meta">Meta</a>
-  </li>
-  <li>
-    <a href="/tools/imagedesc">Image Desc</a>
-  </li>
-</ul>
+import "../styles/globals.css";
+import Header from "../app/components/Header";
+import Footer from "../app/components/Footer";
+
+export const metadata = { title: "AI Tools Hub" };
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body className="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+        {/* Header */}
+        <Header />
+
+        {/* Main content */}
+        <main className="flex-1 w-full max-w-5xl mx-auto p-4">
+          {children}
+        </main>
+
+        {/* Footer */}
+        <Footer />
+      </body>
+    </html>
+  );
+}
+
