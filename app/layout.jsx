@@ -4,8 +4,8 @@ import Link from "next/link";
 export const metadata = { title: "AI Tools Hub" };
 
 import "../styles/globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 
 export default function RootLayout({ children }) {
   return (
