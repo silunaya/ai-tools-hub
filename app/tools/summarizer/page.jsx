@@ -11,7 +11,7 @@ export default function ToolPage() {
     setOutput("");
 
     try {
-      const res = await fetch("/api/summarizer", {    // << CHANGE THIS
+      const res = await fetch("/api/summarize", {    // << CHANGE THIS
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: input })
