@@ -34,7 +34,7 @@ export default function ToolPage() {
       width: "100%"
     }}>
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        SUMMARIZING TOOL
+        SUMMARISING TOOL
       </h1>
 
       <textarea
