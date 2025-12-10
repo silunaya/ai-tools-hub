@@ -21,7 +21,7 @@ export default function ToolPage() {
       setOutput(text);
     } catch (err) {
       setOutput("Error: " + err.message);
-    }SEO META TAGS GENARATING TOOL
+    }
 
     setLoading(false);
   }
@@ -34,7 +34,7 @@ export default function ToolPage() {
       width: "100%"
     }}>
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        CAPTION GENARATING TOOL
+        SEO META TAGS GENARATING TOOL
       </h1>
 
       <textarea
