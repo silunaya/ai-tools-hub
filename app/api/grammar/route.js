@@ -5,18 +5,22 @@ export async function POST(req) {
     const { text } = await req.json();
 
     if (!text) {
-      return new Response(
-        JSON.stringify({ error: "No text provided" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response("No text provided", {
+        status: 400,
+        headers: { "Content-Type": "text/plain" }
+      });
     }
 
-    const client = new Groq({ apiKey: process.env.GROQ_API_KEY  });
+    const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
     const completion = await client.chat.completions.create({
       model: "llama-3.1-8b-instant",
       messages: [
-        { role: "system", content: "You are a strict grammar correction engine. Your only task is to correct grammar, spelling, and sentence structure. Do NOT add creativity, do NOT change the meaning, and do NOT talk back. ONLY return the corrected text." },
+        {
+          role: "system",
+          content:
+            "You are a strict grammar correction engine. Correct grammar, spelling, and sentence structure without adding any words. Do not explain. Only return corrected text."
+        },
         { role: "user", content: text }
       ]
     });
@@ -31,9 +35,10 @@ export async function POST(req) {
 
   } catch (err) {
     console.error(err);
-    return new Response(
-      JSON.stringify({ error: err.message || "Unknown error" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(err.message || "Unknown error", {
+      status: 500,
+      headers: { "Content-Type": "text/plain" }
+    });
   }
 }
+
