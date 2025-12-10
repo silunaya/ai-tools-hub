@@ -2,7 +2,6 @@ import Groq from "groq-sdk";
 
 export async function POST(req) {
   try {
-    // Get the text input from frontend
     const { text } = await req.json();
 
     if (!text) {
@@ -13,29 +12,30 @@ export async function POST(req) {
     }
 
     // Initialize Groq client
-    const client = new Groq({ apiKey: process.env.GROQ_KEY });
+    const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-    // Generate the caption using LLaMA 3.1
+    // Call Groq
     const completion = await client.chat.completions.create({
       model: "llama-3.1-8b-instant",
       messages: [
-        { role: "system", content: "You are a creative social media caption generator." },
+        { role: "system", content: "You are a creative caption generator." },
         { role: "user", content: text }
       ]
     });
 
-    // Return JSON output
+    // Clean the output to remove extra quotes
+    const rawOutput = completion.choices?.[0]?.message?.content || "No response";
+    const cleanOutput = rawOutput.replace(/^"(.*)"$/, "$1").trim();
+
     return new Response(
-      JSON.stringify({
-        output: completion.choices?.[0]?.message?.content || "No response"
-      }),
+      JSON.stringify({ output: cleanOutput }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
 
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     return new Response(
-      JSON.stringify({ error: error.message || "Unknown error" }),
+      JSON.stringify({ error: err.message || "Unknown error" }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
