@@ -1,68 +1,33 @@
-.nav-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+body {
   font-family: 'Inter', sans-serif;
-}
-
-.nav-list li {
-  position: relative;
-  overflow: hidden;
-}
-
-.nav-list li a {
-  display: block;
-  padding: 0.75rem 1rem;
+  background-color: #f5f3ff;
   color: #1e1e2f;
-  font-weight: 500;
-  border-radius: 10px;
-  background: transparent;
-  transition: all 0.3s ease;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-  position: relative;
-  z-index: 1;
+  margin: 0;
+  padding: 0;
 }
 
-/* Elegant hover effect */
-.nav-list li a::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: #8b5cf6; /* bright purple accent */
-  z-index: 0;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  border-radius: 10px;
+a {
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.nav-list li a:hover::before {
-  transform: translateX(0);
+a:hover {
+  color: #8b5cf6; /* bright purple accent */
 }
 
-.nav-list li a:hover {
+button {
+  background-color: #8b5cf6;
   color: white;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Active / Selected style */
-.nav-list li a.active {
-  color: white;
-  background: #7c3aed;
+button:hover {
+  background-color: #7c3aed;
+  transform: translateY(-1px);
 }
 
-/* Smooth responsive typography */
-@media (max-width: 768px) {
-  .nav-list li a {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
-  }
-}
 
 
