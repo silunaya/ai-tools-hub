@@ -11,7 +11,7 @@ export default function ToolPage() {
     setOutput("");
 
     try {
-      const res = await fetch("/api/grammar", {    // << CHANGE THIS
+      const res = await fetch("/api/caption", {    // << CHANGE THIS
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: input })
@@ -34,7 +34,7 @@ export default function ToolPage() {
       width: "100%"
     }}>
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        GRAMMAR CORRECTION TOOL
+        CAPTION GENARATING TOOL
       </h1>
 
       <textarea
