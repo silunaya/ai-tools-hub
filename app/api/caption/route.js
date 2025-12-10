@@ -5,10 +5,10 @@ export async function POST(req) {
     const { text } = await req.json();
 
     if (!text) {
-      return new Response(
-        "No text provided",
-        { status: 400, headers: { "Content-Type": "text/plain" } }
-      );
+      return new Response("No text provided", {
+        status: 400,
+        headers: { "Content-Type": "text/plain" }
+      });
     }
 
     const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -18,7 +18,7 @@ export async function POST(req) {
       messages: [
         { 
           role: "system", 
-          content: "You generate short, engaging, original captions. They must be concise, creative, and tailored to the user's topic. Do not include hashtags unless requested. Only return the caption." 
+          content:"You generate short, engaging, original captions. They must be concise, creative, and tailored to the user's topic. Do not include hashtags unless requested. Only return the caption." 
         },
         { role: "user", content: text }
       ]
@@ -26,19 +26,21 @@ export async function POST(req) {
 
     const output = completion.choices?.[0]?.message?.content || "No response";
 
-    return new Response(output, { 
-      status: 200, 
-      headers: { "Content-Type": "text/plain" } 
+    // Return plain text
+    return new Response(output, {
+      status: 200,
+      headers: { "Content-Type": "text/plain" }
     });
 
   } catch (err) {
     console.error(err);
-    return new Response(
-      "Server error: " + err.message,
-      { status: 500, headers: { "Content-Type": "text/plain" } }
-    );
+    return new Response("Server error: " + err.message, {
+      status: 500,
+      headers: { "Content-Type": "text/plain" }
+    });
   }
 }
+
 
 
 
