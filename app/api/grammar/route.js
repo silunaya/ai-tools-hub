@@ -21,10 +21,13 @@ export async function POST(req) {
       ]
     });
 
-    return new Response(
-      JSON.stringify({ output: completion.choices?.[0]?.message?.content || "No response" }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
+    const result =
+      completion.choices?.[0]?.message?.content?.trim() || "No response";
+
+    return new Response(result, {
+      status: 200,
+      headers: { "Content-Type": "text/plain" }
+    });
 
   } catch (err) {
     console.error(err);
