@@ -1,9 +1,9 @@
-export default function Footer() {
-  return (
-    <footer className="bg-gray-900 text-white p-4 mt-auto shadow-inner">
-      <div className="max-w-5xl mx-auto text-center text-sm">
-        © {new Date().getFullYear()} AI Tools Hub. All rights reserved.
-      </div>
-    </footer>
-  );
-}
+<html lang="en">
+  <body className="bg-gray-50 text-gray-900 min-h-screen flex">
+    <Navbar />
+    <main className="ml-64 w-full p-4">
+      {children}
+    </main>
+  </body>
+</html>
+
