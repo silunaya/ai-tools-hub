@@ -3,29 +3,17 @@ import Link from "next/link";
 
 export const metadata = { title: "AI Tools Hub" };
 
+import "../globals.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <header className="header">
-          <div className="site-title">AI Tools Hub</div>
-          <div className="subtitle">Fast, free AI utilities — zero sign-up</div>
-          <nav className="nav">
-            <Link href="/">Home</Link>
-            <Link href="/tools/summarizer">Summarizer</Link>
-            <Link href="/tools/grammar">Grammar</Link>
-            <Link href="/tools/caption">Caption</Link>
-            <Link href="/tools/translate">Translate</Link>
-            <Link href="/tools/title">Title</Link>
-            <Link href="/tools/resume">Resume</Link>
-            <Link href="/tools/codeexplain">Code</Link>
-            <Link href="/tools/textexpand">Expand</Link>
-            <Link href="/tools/meta">SEO Meta</Link>
-            <Link href="/tools/imagedesc">ImageDesc</Link>
-          </nav>
-        </header>
-        <main>{children}</main>
-        <footer className="footer">Built with ⚡ Groq & Next.js — Add <code>GROQ_KEY</code> in Vercel env</footer>
+      <body className="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1 w-full max-w-5xl mx-auto p-4">{children}</main>
+        <Footer />
       </body>
     </html>
   );
