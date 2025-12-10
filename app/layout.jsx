@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata = { title: "AI Tools Hub" };
 
-import "../globals.css";
+import "../styles/globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
