@@ -1,26 +1,20 @@
 "use client";
+
 import Link from "next/link";
 
-const tools = ["grammar","caption","translate","summarize","title","resume","codeexplain","textexpand","meta","imagedesc"];
-
-export default function Navbar() {
+export default function Header() {
   return (
-    <aside className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg p-4">
-      <h2 className="text-2xl font-bold text-purple-600 mb-6">AI Tools Hub</h2>
-      <ul className="nav-list">
-        {tools.map(tool => (
-          <li key={tool}>
-            <Link
-              href={`/tools/${tool}`}
-              className="capitalize"
-            >
-              {tool}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </aside>
+    <header className="bg-white shadow-md w-full flex items-center justify-between p-4">
+      <h1 className="text-2xl font-bold text-purple-600">AI Tools Hub</h1>
+      <nav className="hidden md:flex space-x-4">
+        <Link href="/tools/grammar" className="hover:text-purple-600">Grammar</Link>
+        <Link href="/tools/caption" className="hover:text-purple-600">Caption</Link>
+        <Link href="/tools/translate" className="hover:text-purple-600">Translate</Link>
+        <Link href="/tools/summarize" className="hover:text-purple-600">Summarize</Link>
+      </nav>
+    </header>
   );
 }
+
 
 
