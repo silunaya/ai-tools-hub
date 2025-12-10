@@ -16,7 +16,7 @@ export async function POST(req) {
     const completion = await client.chat.completions.create({
       model: "llama-3.1-8b-instant",
       messages: [
-        { role: "system", content: "You are a creative caption generator." },
+        { role: "system", content: "You are a strict grammar correction engine. Your only task is to correct grammar, spelling, and sentence structure. Do NOT add creativity, do NOT change the meaning, and do NOT talk back. ONLY return the corrected text." },
         { role: "user", content: text }
       ]
     });
