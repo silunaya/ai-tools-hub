@@ -15,7 +15,7 @@ export async function POST(req) {
     const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
     const completion = await client.chat.completions.create({
-      model: "llama-3.2-11b-vision-preview",
+      model: "llama-3.2-90b-vision-preview",   // << FIXED MODEL
       messages: [
         {
           role: "system",
@@ -46,4 +46,5 @@ export async function POST(req) {
     return new Response("Server error: " + err.message, { status: 500 });
   }
 }
+
 
