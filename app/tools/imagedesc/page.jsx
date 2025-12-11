@@ -1,89 +1,48 @@
 "use client";
 import { useState } from "react";
 
-export default function ToolPage() {
-  const [input, setInput] = useState("");
+export default function ImageDescTool() {
+  const [file, setFile] = useState(null);
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
+    if (!file) {
+      setOutput("Please select an image");
+      return;
+    }
+
     setLoading(true);
     setOutput("");
 
-    try {
-      const res = await fetch("/api/imagedesc", {    // << CHANGE THIS
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: input })
-      });
+    const formData = new FormData();
+    formData.append("image", file);
 
-      const text = await res.text();
-      setOutput(text);
-    } catch (err) {
-      setOutput("Error: " + err.message);
-    }
+    const res = await fetch("/api/imagedesc", {
+      method: "POST",
+      body: formData
+    });
 
+    const text = await res.text();
+    setOutput(text);
     setLoading(false);
   }
 
   return (
-    <div style={{
-      maxWidth: "700px",
-      margin: "0 auto",
-      padding: "20px",
-      width: "100%"
-    }}>
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-        IMAGE DESCRIBING TOOL
-      </h1>
+    <div style={{ maxWidth: 600, margin: "0 auto" }}>
+      <h2>Image Description Tool</h2>
 
-      <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        rows={6}
-        placeholder="Enter text..."
-        style={{
-          width: "100%",
-          padding: "12px",
-          borderRadius: "8px",
-          border: "1px solid #ccc",
-          fontSize: "16px",
-          resize: "vertical",
-          marginBottom: "15px"
-        }}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setFile(e.target.files[0])}
       />
 
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        style={{
-          width: "100%",
-          padding: "12px",
-          background: "#000",
-          color: "#fff",
-          borderRadius: "8px",
-          border: "none",
-          fontSize: "16px",
-          cursor: "pointer"
-        }}
-      >
-        {loading ? "Processing..." : "Generate"}
+      <button onClick={handleSubmit} disabled={loading}>
+        {loading ? "Processing..." : "Generate Description"}
       </button>
 
-      {output && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "15px",
-            background: "#f8f8f8",
-            borderRadius: "8px",
-            fontSize: "16px",
-            whiteSpace: "pre-wrap"
-          }}
-        >
-          {output}
-        </div>
-      )}
+      <div style={{ marginTop: 20, whiteSpace: "pre-wrap" }}>{output}</div>
     </div>
   );
 }
