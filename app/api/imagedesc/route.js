@@ -1,40 +1,42 @@
-import Replicate from "replicate";
+import Groq from "groq-sdk";
 
 export async function POST(req) {
   try {
-    const form = await req.formData();
-    const file = form.get("image");
+    const { text } = await req.json();
 
-    if (!file) {
-      return new Response("No image provided", { status: 400 });
+    if (!text) {
+      return new Response(
+        "No text provided",
+        { status: 400, headers: { "Content-Type": "text/plain" } }
+      );
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const base64 = buffer.toString("base64");
-    const mime = file.type;
+    const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-    const replicate = new Replicate({
-      auth: process.env.REPLICATE_API_TOKEN
+    const completion = await client.chat.completions.create({
+      model: "llama-3.1-8b-instant",
+      messages: [
+        { 
+          role: "system", 
+          content: "You generate accurate, objective image descriptions. No embellishment, no assumptions, no creativity. Only describe what is explicitly provided in the text. Return a single clean description." 
+        },
+        { role: "user", content: text }
+      ]
     });
 
-    // BLIP (image captioning model)
-    const output = await replicate.run(
-      "salesforce/blip-image-captioning:1a011c1c776f3dbfc2a8d0f6ee34dbb8",
-      {
-        input: {
-          image: `data:${mime};base64,${base64}`
-        }
-      }
-    );
+    const output = completion.choices?.[0]?.message?.content || "No response";
 
-    return new Response(output, {
-      status: 200,
-      headers: { "Content-Type": "text/plain" }
+    return new Response(output, { 
+      status: 200, 
+      headers: { "Content-Type": "text/plain" } 
     });
 
   } catch (err) {
     console.error(err);
-    return new Response("Server error: " + err.message, { status: 500 });
+    return new Response(
+      "Server error: " + err.message,
+      { status: 500, headers: { "Content-Type": "text/plain" } }
+    );
   }
 }
 
