@@ -14,30 +14,18 @@ export async function POST(req) {
 
     const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-    const completion = await client.chat.completions.create({
-      model: "llama-3.2-90b-vision-preview",   // << FIXED MODEL
-      messages: [
+    const result = await client.vision.generate({
+      model: "llama-3.2-11b-vision",   // << THE ONLY CURRENT VISION MODEL
+      prompt: "Describe this image accurately and objectively.",
+      images: [
         {
-          role: "system",
-          content:
-            "You are an image description engine. Describe the image accurately and objectively."
-        },
-        {
-          role: "user",
-          content: [
-            {
-              type: "image_url",
-              image_url: {
-                url: `data:${file.type};base64,${base64Image}`
-              }
-            }
-          ]
+          mimeType: file.type,
+          data: base64Image
         }
       ]
     });
 
-    const output =
-      completion.choices?.[0]?.message?.content || "No response";
+    const output = result.output_text || "No response";
 
     return new Response(output, { status: 200 });
 
@@ -46,5 +34,6 @@ export async function POST(req) {
     return new Response("Server error: " + err.message, { status: 500 });
   }
 }
+
 
 
