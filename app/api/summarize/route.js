@@ -18,7 +18,7 @@ export async function POST(req) {
       messages: [
         { 
           role: "system", 
-          content: "You produce short, precise summaries. Do not add opinions, do not remove meaning, and do not introduce new details. Only return the summarized text."" 
+          content: "You are a strict text summarizer. Reduce the user's text to a clear, concise summary that preserves all essential facts and meaning. Do NOT add opinions, explanations, or new information. ONLY return the summary text." 
         },
         { role: "user", content: text }
       ]
