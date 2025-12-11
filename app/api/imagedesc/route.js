@@ -2,40 +2,44 @@ import Groq from "groq-sdk";
 
 export async function POST(req) {
   try {
-    const { text } = await req.json();
+    const formData = await req.formData();
+    const file = formData.get("image");
 
-    if (!text) {
-      return new Response(
-        "No text provided",
-        { status: 400, headers: { "Content-Type": "text/plain" } }
-      );
+    if (!file) {
+      return new Response("No image provided", { status: 400 });
     }
+
+    const arrayBuffer = await file.arrayBuffer();
+    const base64Image = Buffer.from(arrayBuffer).toString("base64");
 
     const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
     const completion = await client.chat.completions.create({
-      model: "llama-3.1-8b-instant",
+      model: "llama-3.2-11b-vision-preview",
       messages: [
-        { 
-          role: "system", 
-          content: "You generate accurate, objective image descriptions. No embellishment, no assumptions, no creativity. Only describe what is explicitly provided in the text. Return a single clean description." 
+        {
+          role: "system",
+          content:
+            "You are an image description engine. Describe the image accurately and objectively."
         },
-        { role: "user", content: text }
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_image",
+              image_url: `data:${file.type};base64,${base64Image}`
+            }
+          ]
+        }
       ]
     });
 
     const output = completion.choices?.[0]?.message?.content || "No response";
-
-    return new Response(output, { 
-      status: 200, 
-      headers: { "Content-Type": "text/plain" } 
-    });
+    return new Response(output, { status: 200 });
 
   } catch (err) {
     console.error(err);
-    return new Response(
-      "Server error: " + err.message,
-      { status: 500, headers: { "Content-Type": "text/plain" } }
-    );
+    return new Response("Server error: " + err.message, { status: 500 });
   }
 }
+
