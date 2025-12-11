@@ -18,7 +18,7 @@ export async function POST(req) {
       messages: [
         { 
           role: "system", 
-          content: "You produce short, precise summaries. Do not add opinions, do not remove meaning, and do not introduce new details. Only return the summary." 
+          content: "You are a strict grammar correction engine. Correct grammar, spelling, and sentence structure. Do NOT add creativity or commentary. ONLY return corrected text." 
         },
         { role: "user", content: text }
       ]
