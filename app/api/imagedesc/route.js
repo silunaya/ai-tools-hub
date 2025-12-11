@@ -1,5 +1,3 @@
-import Groq from "groq-sdk";
-
 export async function POST(req) {
   try {
     const formData = await req.formData();
@@ -12,28 +10,42 @@ export async function POST(req) {
     const arrayBuffer = await file.arrayBuffer();
     const base64Image = Buffer.from(arrayBuffer).toString("base64");
 
-    const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    const apiKey = process.env.GROQ_API_KEY;
 
-    const result = await client.vision.generate({
-      model: "llama-3.2-11b-vision",   // << THE ONLY CURRENT VISION MODEL
-      prompt: "Describe this image accurately and objectively.",
-      images: [
-        {
-          mimeType: file.type,
-          data: base64Image
-        }
-      ]
+    const res = await fetch("https://api.groq.com/openai/v1/vision", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama-3.2-11b-vision",
+        prompt: "Describe the image accurately and objectively.",
+        images: [
+          {
+            data: base64Image,
+            mimeType: file.type
+          }
+        ]
+      })
     });
 
-    const output = result.output_text || "No response";
+    const data = await res.json();
 
-    return new Response(output, { status: 200 });
+    if (!res.ok) {
+      return new Response(
+        "Groq error: " + JSON.stringify(data),
+        { status: 500 }
+      );
+    }
+
+    return new Response(data.output_text, { status: 200 });
 
   } catch (err) {
-    console.error(err);
     return new Response("Server error: " + err.message, { status: 500 });
   }
 }
+
 
 
 
