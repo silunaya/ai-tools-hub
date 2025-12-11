@@ -26,15 +26,19 @@ export async function POST(req) {
           role: "user",
           content: [
             {
-              type: "input_image",
-              image_url: `data:${file.type};base64,${base64Image}`
+              type: "image_url",
+              image_url: {
+                url: `data:${file.type};base64,${base64Image}`
+              }
             }
           ]
         }
       ]
     });
 
-    const output = completion.choices?.[0]?.message?.content || "No response";
+    const output =
+      completion.choices?.[0]?.message?.content || "No response";
+
     return new Response(output, { status: 200 });
 
   } catch (err) {
